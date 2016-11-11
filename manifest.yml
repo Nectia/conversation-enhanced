@@ -1,18 +1,13 @@
----
-declared-services:
-  retrieve-and-rank-service:
-    label: retrieve_and_rank
-    plan: standard
-  document-conversion-service:
-    label: document_conversion
-    plan: standard
-  conversation-service:
-    label: conversation
-    plan: free
 applications:
-- services:
-  - retrieve-and-rank-service
-  - document-conversion-service
-  - conversation-service
-  path: build/libs/conversation-enhanced-0.1-SNAPSHOT.war
+- path: build/libs/conversation.war
   memory: 512M
+  instances: 1
+  domain: mybluemix.net
+  name: nthink-conversation
+  host: nthink-conversation
+  disk_quota: 1024M
+  services:
+  - blue-conversation
+  - availability-monitoring-auto
+  env:
+    WORKSPACE_ID: f75b9411-8154-48fe-b63e-6df60cecfa82

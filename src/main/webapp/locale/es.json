@@ -1,11 +1,11 @@
 {
-  "Collapse": "Click to Collapse",
-  "Expand": "Click to Expand",
-  "CResults": "Collapse Results",
-  "EResults": "Expand Results",
-  "Type": "Type something to see the output",
-  "Understand": "Watson understands",
-  "Something": "Type something",
+  "Collapse": "Presione para colapsar",
+  "Expand": "Presione para expandir",
+  "CResults": "Colapsar resultados",
+  "EResults": "Expandir resultados",
+  "Type": "Escriba algo para ver el resultado",
+  "Understand": "Bot entendio",
+  "Something": "Escriba algo.",
   "Description": "This Cognitive app shows how the Conversation service can understand three intents: 1) create a new list, 2) add a product to the list and 3) enumerate list content. It speak spanish, try phrases like: nueva lista (new list), agrega 2 kilos de manzana (add apple), que hay en la lista (what it is in the list). The list of products that conform de vocabulary at disposal was taken from public website .",
   "Great": "Great question. I found some ideas for you:",
   "Intent": "I understood your intent was ",
@@ -14,6 +14,6 @@
   "View": "View detailed Content",
   "Content": "View content file",
   "Read": "Read the full document here",
-  "Disclaimer": "We're demonstrating text limiting using only two paragraphs of the full article.You can turn this off for your own application.",
+  "Disclaimer": "We�re demonstrating text limiting using only two paragraphs of the full article.You can turn this off for your own application.",
   "NResponse": "No response from Watson"
 }

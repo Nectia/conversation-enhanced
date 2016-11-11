@@ -20,6 +20,13 @@ import javax.servlet.ServletContextEvent;
 import com.google.gson.JsonObject;
 
 
+/**
+ * Elimina configuración de instancia servicio Retrieve & Rank
+ * 
+ * javax.servlet.ServletContextListener
+ * public void contextInitialized(ServletContextEvent arg0)
+ * 
+ */
 
 public class ServletContextListener implements javax.servlet.ServletContextListener, PropertyChangeListener {
 

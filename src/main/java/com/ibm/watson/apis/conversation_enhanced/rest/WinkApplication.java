@@ -19,7 +19,8 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.ibm.watson.apis.conversation_enhanced.rest.ProxyResource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @ApplicationPath("/rest")
 /**
@@ -28,6 +29,7 @@ import com.ibm.watson.apis.conversation_enhanced.rest.ProxyResource;
  */
 public class WinkApplication extends Application {
   
+	private static final Logger logger = LogManager.getLogger(WinkApplication.class.getName());
   
   /*
    * (non-Javadoc)
@@ -35,6 +37,7 @@ public class WinkApplication extends Application {
    * @see javax.ws.rs.core.Application#getClasses()
    */
   @Override public Set<Class<?>> getClasses() {
+	  logger.info("Rest Class loaded.");
     // Returns the list of classes which are to be added as REST endpoints
     Set<Class<?>> classes = new HashSet<Class<?>>();
     classes.add(ProxyResource.class);
