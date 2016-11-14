@@ -1,10 +1,19 @@
 {
+  "output": {
+    "text": "BOT_CARROSUPERMERCADO_V0.2 - Mantención"
+  },
   "context": {
-    "last_selected_item": null,
+    "item_list": [],
+    "preferences": { "user": { "email": "blubot@azul.gl"},
+                    "brands": [{"product": "pan", "brand": "jumbo"}],
+                    "search": { "topic":"price, healthy, packaging",
+                                "restrictions": ["price >","price <","calories >","calories <"]}},
+    "default_brand": "Jumbo-Default",
+    "last_selected_brand": null,
     "last_selected_product": null,
     "last_selected_quantity": 0,
-    "items_list": [],
     "lc_product": 0
   }
 
 }
+
