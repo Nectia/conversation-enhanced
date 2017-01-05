@@ -14,17 +14,14 @@ class JumboCl(scraping.Scraper):
         scraping.Scraper.__init__(self)
 
         # Jumbo.cl Data
-        # Header requiere ser obtenido primero utilizando browser en pagina
-        # http://www.jumbo.cl/FO/CategoryDisplay , luego reemplazar propiedad
-        # Cookie. Es posible que al primer intento no se obtenga una sesion valida,
-        # F5-refresh y revisar nuevamente.
+        self.entryPoint = 'http://www.jumbo.cl/FO/CategoryDisplay?cab=4008'
         self.headers = {'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate, sdch',
                    'Accept-Language': 'es-419,es;q=0.8,en-US;q=0.6,en;q=0.4',
                    'Connection': 'keep-alive',
-                   'Cookie': 'style=null; JSESSIONID=0000iKGGHupT_BOdTvqKaiF5rOv:-1; chaordic_browserId=8d6f8380-9c93-11e6-901d-17229d8f0cd9; chaordic_anonymousUserId=anon-8d6f8380-9c93-11e6-901d-17229d8f0cd9; chaordic_session=1479053787730-0.48731753593614235; chaordic_testGroup=%7B%22experiment%22%3Anull%2C%22group%22%3Anull%2C%22testCode%22%3Anull%2C%22code%22%3Anull%2C%22session%22%3Anull%7D; queueit_js_jumbocl_cyberdayjumbo_userverified=verified; __utmt_mxTracker=1; __utma=91194497.676083743.1477606823.1479038165.1479053788.16; __utmb=91194497.3.10.1479053788; __utmc=91194497; __utmz=91194497.1477606823.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)',
                    'Host': 'www.jumbo.cl', 'Referer': 'http://www.jumbo.cl/FO/CategoryDisplay',
                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
                    'X-Requested-With': 'XMLHttpRequest'}
+        self.cookie = None
 
         # URLs
         # prods = requests.get('http://www.jumbo.cl/FO/PasoDosPub', params={'cab':4008, 'int':-1}, headers=h)
@@ -49,6 +46,13 @@ class JumboCl(scraping.Scraper):
         self.marcas = []
         self.productos = []
         self.items = []
+        self.obtainCookie()
+
+    def obtainCookie(self):
+        print "Obtiene Cookie: ",
+        r = requests.get(self.entryPoint);
+        self.cookie = r.cookies
+        print r.cookies['JSESSIONID']
 
     def catalogNavegationParams(self, uri, params, headers, regex):
         """ Obtiene parametros de navegación entre páginas del catálogo de productos.
@@ -63,7 +67,7 @@ class JumboCl(scraping.Scraper):
         products = []
         for cab in self.jumboCabs:
             params['cab'] = cab
-            r = requests.get(uri, params=params, headers=headers)
+            r = requests.get(uri, params=params, headers=headers, cookies=self.cookie)
             products += re.findall(p, self.cleanText(r.content))
         return products
 
@@ -73,7 +77,7 @@ class JumboCl(scraping.Scraper):
                 for p in arrProductos:
                     params['int'] = p[1]
                     params['ter'] = p[2]
-                    itemsContent = requests.get(uri, params=params, headers=headers)
+                    itemsContent = requests.get(uri, params=params, headers=headers, cookies=self.cookie)
                     print '\n- - -'  # , chardet.detect(p[3])
                     print u'Categoria Productos: ', p[3]
                     relevant.feed(itemsContent.content.replace('\n', '').replace('\t', ''))
@@ -143,4 +147,9 @@ if __name__ == '__main__':
     marcasFile.close()
     itemsFile.close()
 
-    scraper.saveEntities(productos, marcas)
+    watsonEntities = scraper.saveEntitiesWatson("productos", productos, baseList=None, export=False)
+    watsonEntities = scraper.saveEntitiesWatson("marcas", productos, baseList=watsonEntities, export=True)
+
+    # (productos, marcas)
+    scraper.saveEntitiesApiAI('producto', productos)
+    scraper.saveEntitiesApiAI('marca', marcas)
